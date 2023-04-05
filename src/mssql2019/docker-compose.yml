@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  mssql:
+    container_name: "MSSQL${SUFFIX}"
+    image: "mcr.microsoft.com/mssql/server:${MSSQL_TAG}"
+    ports:
+      - ${PORT}:1433
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD:
+    healthcheck:
+      test:
+        [
+          "/opt/mssql-tools/bin/sqlcmd",
+          "-U sa -P $MSSQL_SA_PASSWORD -Q 'select 1' -b -o /dev/null"
+        ]
+      interval: 60s
+      timeout: 2s
+      retries: 5
+      start_period: 20s
+    volumes:
+      - mssql19:/var/opt/mssql
+
+volumes:
+  mssql19:
