@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  sftp:
+    image: atmoz/sftp
+    volumes:
+        - type: bind
+          source: ${SSHDIR}\ssh_host_ed25519_key.pub
+          target: /home/${USER}/.ssh/keys/ssh_host_ed25519_key.pub:ro
+        - sftp:/home/${USER}/${FOLDER}/
+    ports:
+        - "62221:22"
+    command: ${USER}:${PASSWORD}:::${FOLDER}
+
+volumes:
+  sftp:
+   external: true
