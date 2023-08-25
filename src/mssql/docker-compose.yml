@@ -12,6 +12,7 @@ services:
     healthcheck:
       test:
         [
+          "NONE",
           "/opt/mssql-tools/bin/sqlcmd",
           "-U sa -P $MSSQL_SA_PASSWORD -Q 'select 1' -b -o /dev/null"
         ]
