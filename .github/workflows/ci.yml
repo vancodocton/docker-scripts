@@ -1,0 +1,23 @@
+name: Docker CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Pull
+      run: docker compose pull
+    - name: Build
+      run: docker compose build
+    - name: Up 
+      run: docker compose -f docker-compose.yaml -f docker-compose.development.yaml up --wait
+    - name: Down
+      if: always()
+      run: docker compose down
