@@ -9,6 +9,13 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        workDir: 
+        - src/postgres
+    defaults:
+      run:
+        working-directory: ${{ matrix.workDir }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
