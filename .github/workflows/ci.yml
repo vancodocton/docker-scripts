@@ -13,6 +13,7 @@ jobs:
       matrix:
         workDir: 
         - src/postgres
+        - src/mssql
     defaults:
       run:
         working-directory: ${{ matrix.workDir }}
