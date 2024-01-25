@@ -1,0 +1,30 @@
+name: Docker CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        workDir: 
+        - src/postgres
+    defaults:
+      run:
+        working-directory: ${{ matrix.workDir }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Pull
+      run: docker compose -f docker-compose.yaml -f docker-compose.development.yaml pull
+    - name: Build
+      run: docker compose -f docker-compose.yaml -f docker-compose.development.yaml build
+    - name: Up 
+      run: docker compose -f docker-compose.yaml -f docker-compose.development.yaml up --wait
+    - name: Down
+      if: always()
+      run: docker compose -f docker-compose.yaml -f docker-compose.development.yaml down
