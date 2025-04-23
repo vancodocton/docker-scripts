@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   postgres:
     image: postgres:latest
@@ -14,6 +12,24 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  pgadmin:
+    profiles: [dev]
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=duongtruong.nguyenky@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+    ports:
+      - 5050:80
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+  adminer:
+    profiles: [dev]
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
 
 volumes:
   postgres:
