@@ -8,6 +8,12 @@ services:
    environment:
      MONGO_INITDB_ROOT_USERNAME: root
      MONGO_INITDB_ROOT_PASSWORD: password123!
+   healthcheck:
+     test: echo 'db.runCommand("ping").ok' | mongosh mongodb://$${MONGO_INITDB_ROOT_USERNAME}:$${MONGO_INITDB_ROOT_PASSWORD}@localhost:27017 --quiet
+     interval: 2s
+     timeout: 1s
+     retries: 3
+     start_period: 30s
 
 volumes:
   mongo:
